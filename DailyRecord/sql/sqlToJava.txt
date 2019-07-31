@@ -1,0 +1,15 @@
+oracle中:
+    select listagg(
+        'private '
+        || case data_type when 'NUMBER' then 'BigDecimal'
+            when 'DATE' then 'Date'
+            else 'String'
+        || ' '
+        || lower(t1.column_name)
+        || ';   //'
+        || comments, chr(13)|| chr(10)) with in group (order by null)
+    from user_tab_columns t1
+    left join user_col_comments t2
+    on t1.table_name = t2.table_name and t1.column_name = t2.column_name
+    where regexp_like(t1.table_name,'表名','i');
+    

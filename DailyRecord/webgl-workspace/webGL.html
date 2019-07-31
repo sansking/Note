@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./lib/three.js"></script>
+    <script>
+        // 创建场景的步骤:
+        // 1. 定义Scene,camera,render
+        let scene = new THREE.Scene();
+        let camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,100);
+        let render = new THREE.WebGLRenderer();
+        render.width = window.innerWidth;
+        render.height = window.innerHeight;
+        document.body.appendChild(render.domElement);
+
+        // 2.定义几何体
+        let geometry = new THREE.Cube(2,2,2);
+        let material = 
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+<script>
+    /*
+    let merchantList = [{id:1,name:'a'},{id:2,name:'b'}];
+    let storeList = [{id:1,name:'x1',mid:2},{id:2,name:'x2',mid:1}];
+
+    let arr = [];
+    let search = function(mid){
+        for(let i in storeList){
+            if(merchantList[i].id == storeId){
+                arr.push(merchantList[i]);
+            }
+        }
+    }
+    */
+
+</script>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+            #target {
+                height: 400px;
+                width: 700px;
+                background-color: #f8f8f8;
+                margin: 200px auto;
+                overflow:hidden;
+                border-radius:5px;
+                box-shadow:2px 2px 5px #888;
+            }    
+            .hover::before {
+                content: '请将excel文件拖到这里';
+                width: 100%;
+                height: 100%;
+                display: block;
+                text-align: center;
+                line-height: 400px;
+                font-size: 24px;
+                font-family: '微软雅黑';
+            }
+            #target>table{
+                height:250px;
+                width:400px;
+                border:1px solid #ccc;
+                border-radius:3px;
+                margin:75px auto;
+            }
+            #target>table td{
+                text-align:center;
+                border-top:1px solid #ccc;
+                border-left:1px solid #ccc;
+            }
+             #target>table tr:first-child>td{
+                 border-top:0px solid #ccc;
+             }
+             #target>table tr>td:first-child{
+                 border-left:0px solid #ccc;
+             }
+        </style>
+</head>
+<body>
+
+        <div id="target" class="hover">
+            </div>
+
+
+
+    <script src="./lib/jszip.js"></script>
+    <script src="./lib/xlsx.js"></script>
+
+
+    <script>
+        window.addEventListener('load', function () {
+            var target = document.querySelector('#target');
+            target.addEventListener('dragenter', function () {
+                this.classList.remove('hover');
+            });
+            target.addEventListener('dragleave', function () {
+                this.classList.add('hover');
+            });
+            target.addEventListener('dragover', function (e) {
+                this.classList.remove('hover');
+                e.preventDefault();
+            });
+
+            target.addEventListener('drop', function (e) {
+                e.preventDefault();
+                handleDrop(e.dataTransfer.files[0]);
+            });
+
+        });
+        var handleDrop = function (f) {
+            var reader = new FileReader(),
+                name = f.name;
+            reader.onload = function (e) {
+                var data = e.target.result,
+                    workbook = XLSX.read(data, { type: 'binary' }),
+                    sheetName = workbook.SheetNames[0],
+                    sheet = workbook.Sheets[sheetName],
+                    table = document.createElement('table');
+
+                for (var row = 1; ; row++) {
+                    if (sheet['A' + row] == null) {
+                        break;
+                    }
+                    var tr = document.createElement('tr');
+
+                    for (var col = 65; col <= 90; col++) {
+                        var c = String.fromCharCode(col);// get 'A', 'B', 'C' ... 
+                        var key = '' + c + row;
+                        if (sheet[key] == null) {
+                            break;
+                        }
+                        var td = document.createElement('td');
+                        td.innerHTML = sheet[key]['w'];
+                        tr.appendChild(td);
+                    }
+                    table.appendChild(tr);
+                }
+                document.querySelector('#target').appendChild(table);
+            };
+            reader.readAsBinaryString(f);
+        }
+    </script>
+</body>
+</html>
